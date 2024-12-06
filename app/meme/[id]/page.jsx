@@ -1,21 +1,29 @@
 "use client";
 import fetchMemes from "@/app/utils/fetchMemes";
 import Image from "next/image";
-import Link from "next/link";
-import React, { useState, use, useRef } from "react";
+import React, { useState, use, useRef, useEffect } from "react";
 
 const SingleMeme = ({ params }) => {
   const { id } = use(params);
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [generatedMeme, setGeneratedMeme] = useState();
   const input1 = useRef();
   const input2 = useRef();
 
-  fetchMemes().then((res) => {
-    const selectedMeme = res.data.memes.find((item) => item.id === id);
-    setData({ ...selectedMeme });
-  });
+  useEffect(() => {
+    fetchMemes()
+      .then((res) => {
+        const selectedMeme = res.data.memes.find((item) => item.id === id);
+        if (selectedMeme === undefined) {
+          setError(true);
+          return;
+        }
+        setData({ ...selectedMeme });
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const generateMeme = async (e) => {
     e.preventDefault();
@@ -42,58 +50,26 @@ const SingleMeme = ({ params }) => {
     }
   };
   return (
-    // <div>
-    //   {data && (
-    //     <div>
-    //       <div>
-    //         <Image
-    //           priority={true}
-    //           src={data.url}
-    //           width={data.width}
-    //           alt={data.name}
-    //           height={data.height}
-    //         />
-    //         <h2>{data.name}</h2>
-    //         <form onSubmit={generateMeme}>
-    //           <input type="text" ref={input1} required className="border-2" />
-    //           <input type="text" ref={input2} required className="border-2" />
-    //           <button className="border-2 border-black">generate</button>
-    //         </form>
-    //       </div>
-    //       <div>
-    //         {generatedMeme && (
-    //           <div className="w-[420px]">
-    //             <Image
-    //               alt="generated-meme"
-    //               src={generatedMeme.url}
-    //               width={0}
-    //               height={0}
-    //               sizes="100vw"
-    //               style={{ width: "100%", height: "auto" }}
-    //             />
-    //             <a href={generatedMeme.downloadUrl} download={Date.now()}>
-    //               downlod
-    //             </a>
-    //           </div>
-    //         )}
-    //       </div>
-    //     </div>
-    //   )}
-    // </div>
-
-    // ChatGPT
     <div className="min-h-screen bg-gray-800 text-gray-300 p-6">
+      {error && (
+        <h2 className="text-2xl text-center font-bold text-indigo-400 mt-4">
+          Meme not Found !
+        </h2>
+      )}
       {data && (
         <div className="max-w-3xl mx-auto bg-gray-900 p-6 rounded-lg shadow-lg">
           <div className="text-center">
-            <Image
-              priority={true}
-              src={data.url}
-              width={data.width}
-              alt={data.name}
-              height={data.height}
-              className="rounded-md"
-            />
+            <div className="w-full">
+              <Image
+                priority={true}
+                src={data.url}
+                width={0}
+                height={0}
+                sizes="100vw"
+                alt={data.name}
+                className="rounded-md w-full"
+              />
+            </div>
             <h2 className="text-2xl font-bold text-indigo-400 mt-4">
               {data.name}
             </h2>

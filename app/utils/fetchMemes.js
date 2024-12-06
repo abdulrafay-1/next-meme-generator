@@ -3,7 +3,7 @@ const fetchMemes = async () => {
         try {
             const response = await fetch("https://api.imgflip.com/get_memes", {
                 next: {
-                    revalidate: 60,
+                    revalidate: 7200,
                 }
             })
             const data = await response.json()

@@ -6,19 +6,6 @@ import fetchMemes from './utils/fetchMemes'
 const Home = async () => {
   const data = await fetchMemes()
   return (
-    // <div>
-    //   <h1>Memes Generator - {new Date().toTimeString()}</h1>
-    //   <div>
-    //     <div className='columns-xs'>
-    //       {data.data.memes.map((meme) => (
-    //         <Link key={meme.id} href={`/meme/${meme.id}`}>
-    //           <MemeCard meme={meme} /></Link>
-    //       ))}
-    //     </div>
-    //   </div>
-    // </div>
-
-    // ChatGPT
     <div className="min-h-screen bg-gray-800 text-gray-300">
       <header className="py-6 bg-gray-900 text-center">
         <h1 className="text-3xl font-bold text-indigo-400">
@@ -28,7 +15,7 @@ const Home = async () => {
       <main className="p-6">
         <div className="columns-xs">
           {data.data.memes.map((meme) => (
-            <Link key={meme.id} href={`/meme/${meme.id}`}>
+            <Link key={meme.id} href={`/meme/${meme.id}`} prefetch={false}>
               <MemeCard meme={meme} />
             </Link>
           ))}
