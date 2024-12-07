@@ -7,7 +7,6 @@ const MemeCard = ({ meme }) => {
       <Image
         src={meme.url}
         alt={meme.name}
-        priority={true}
         width={meme.width}
         height={meme.height}
         className="rounded-t-lg"

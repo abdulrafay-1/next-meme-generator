@@ -15,7 +15,17 @@ const Home = async () => {
       <main className="p-6">
         <div className="columns-xs">
           {data.data.memes.map((meme) => (
-            <Link key={meme.id} href={`/meme/${meme.id}`} prefetch={false}>
+            <Link
+              key={meme.id}
+              prefetch={false}
+              href={{
+                pathname: "meme",
+                query: {
+                  url: meme.url,
+                  id: meme.id,
+                  name: meme.name,
+                }
+              }}>
               <MemeCard meme={meme} />
             </Link>
           ))}
