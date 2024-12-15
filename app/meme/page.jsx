@@ -25,7 +25,7 @@ const SingleMeme = ({ searchParams }) => {
       );
       const data = await response.json();
       if (data.success) {
-        const fetchImg = await fetch(data.url);
+        const fetchImg = await fetch(data.data.url);
         const blob = await fetchImg.blob();
         setGeneratedMeme({
           ...data.data,
@@ -34,8 +34,8 @@ const SingleMeme = ({ searchParams }) => {
       } else {
         setError(data.error_message);
       }
-        input1.current.value = "";
-        input2.current.value = "";
+      input1.current.value = "";
+      input2.current.value = "";
       setLoading(false);
     }
   };
@@ -117,7 +117,7 @@ const SingleMeme = ({ searchParams }) => {
             </div>
             <a
               href={generatedMeme.downloadUrl}
-              download={Date.now()}
+              download
               className="mt-4 inline-block text-indigo-400 hover:underline"
             >
               Download Meme
