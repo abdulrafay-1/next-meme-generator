@@ -25,17 +25,17 @@ const SingleMeme = ({ searchParams }) => {
       );
       const data = await response.json();
       if (data.success) {
-        const fetchImg = await fetch(url);
+        const fetchImg = await fetch(data.url);
         const blob = await fetchImg.blob();
         setGeneratedMeme({
           ...data.data,
           downloadUrl: URL.createObjectURL(blob),
         });
-        input1.current.value = "";
-        input2.current.value = "";
       } else {
         setError(data.error_message);
       }
+        input1.current.value = "";
+        input2.current.value = "";
       setLoading(false);
     }
   };
