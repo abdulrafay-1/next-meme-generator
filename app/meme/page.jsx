@@ -31,11 +31,11 @@ const SingleMeme = ({ searchParams }) => {
           ...data.data,
           downloadUrl: URL.createObjectURL(blob),
         });
+        input1.current.value = "";
+        input2.current.value = "";
       } else {
         setError(data.error_message);
       }
-      input1.current.value = "";
-      input2.current.value = "";
       setLoading(false);
     }
   };
